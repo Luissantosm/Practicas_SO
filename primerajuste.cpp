@@ -10,49 +10,47 @@ public:
     int tamano;
     bool ocupada;
     string nombreProceso;
+
+    Particion(int _id, int _tamano) : id(_id), tamano(_tamano), ocupada(false) {}
 };
 
 class Proceso {
 public:
     string nombre;
     int tamano;
-    int particionAsignada;
+
+    Proceso(const string& _nombre, int _tamano) : nombre(_nombre), tamano(_tamano) {}
 };
 
 int main() {
-    vector<Particion> particiones;
-    vector<Proceso> procesos;
-    int cantidadParticiones, cantidadProcesos;
+    int Windows_2 = 2000;
 
+    cout << "Ingrese la cantidad de particiones: ";
+    int cantidadParticiones;
     cin >> cantidadParticiones;
 
+    vector<Particion> particiones;
     for (int i = 0; i < cantidadParticiones; i++) {
+        cout << "Ingrese el tamano de la particion " << (i + 1) << ": ";
         int tamanoParticion;
         cin >> tamanoParticion;
-        Particion particion;
-        particion.id = i + 1;
-        particion.tamano = tamanoParticion;
-        particion.ocupada = false;
-        particion.nombreProceso = "";
-        particiones.push_back(particion);
+        particiones.push_back(Particion(i + 1, tamanoParticion));
     }
 
-    cin >> cantidadProcesos;
-    cin.ignore();
-
-    for (int i = 1; i <= cantidadProcesos; i++) {
+    cout << "\nIngresar procesos:\n";
+    vector<Proceso> procesos;
+    for (int i = 1; i <= 4; i++) {
+      
+        cout << "Ingrese el nombre del proceso " << i << ": ";
         string nombreProceso;
-        int tamanoProceso;
-
         getline(cin, nombreProceso);
+        cout << "Ingrese el tamano del proceso " << i << ": ";
+        int tamanoProceso;
         cin >> tamanoProceso;
-        Proceso proceso;
-        proceso.nombre = nombreProceso;
-        proceso.tamano = tamanoProceso;
-        proceso.particionAsignada = -1;
-        procesos.push_back(proceso);
-        cin.ignore();
+        procesos.push_back(Proceso(nombreProceso, tamanoProceso));
     }
+
+    cout << "\n";
 
     for (int i = 0; i < procesos.size(); i++) {
         Proceso proceso = procesos[i];
@@ -63,20 +61,34 @@ int main() {
             if (!particion.ocupada && particion.tamano >= proceso.tamano) {
                 particion.ocupada = true;
                 particion.nombreProceso = proceso.nombre;
-                proceso.particionAsignada = particion.id;
                 asignado = true;
-                cout << proceso.nombre << " asignado a la partición " << particion.id << endl;
+                cout << proceso.nombre << " asignado a la particion " << particion.id << endl;
                 break;
             }
         }
 
         if (!asignado) {
-            cout << proceso.nombre << " no fue asignado a la memoria" << endl;
+            cout << proceso.nombre << " no fue asignado a ninguna particion" << endl;
         }
     }
 
-    for (int i = 0; i < procesos.size(); i++) {
-        cout << procesos[i].nombre << " - Partición asignada: " << procesos[i].particionAsignada << endl;
+    int espacioOcupado = 0;
+    for (int i = 0; i < particiones.size(); i++) {
+        if (particiones[i].ocupada) {
+            for (int j = 0; j < procesos.size(); j++) {
+                if (particiones[i].nombreProceso == procesos[j].nombre) {
+                    espacioOcupado += procesos[j].tamano;
+                    break;
+                }
+            }
+        }
+    }
+
+    if (espacioOcupado > Windows_2) {
+        cout << "\nNo hay suficiente memoria para asignar todos los procesos." << endl;
+    } else {
+        int espacioSobrante = Windows_2 - espacioOcupado;
+        cout << "\nEspacio restante de Windows 2 es de: " << espacioSobrante << " de un total de " << Windows_2 << endl;
     }
 
     return 0;

@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <climits>
+#include <algorithm>
 
 using namespace std;
 
@@ -25,9 +25,11 @@ int main() {
     vector<Proceso> procesos;
     int cantidadParticiones, cantidadProcesos;
 
+    cout << "Ingrese la cantidad de particiones: ";
     cin >> cantidadParticiones;
 
     for (int i = 0; i < cantidadParticiones; i++) {
+        cout << "Ingrese el tamaño de la partición " << i + 1 << ": ";
         int tamanoParticion;
         cin >> tamanoParticion;
         Particion particion;
@@ -38,14 +40,16 @@ int main() {
         particiones.push_back(particion);
     }
 
+    cout << "Ingrese la cantidad de procesos: ";
     cin >> cantidadProcesos;
     cin.ignore();
 
     for (int i = 1; i <= cantidadProcesos; i++) {
+        cout << "Ingrese el nombre del proceso " << i << ": ";
         string nombreProceso;
-        int tamanoProceso;
-
         getline(cin, nombreProceso);
+        cout << "Ingrese el tamaño del proceso " << i << ": ";
+        int tamanoProceso;
         cin >> tamanoProceso;
         Proceso proceso;
         proceso.nombre = nombreProceso;

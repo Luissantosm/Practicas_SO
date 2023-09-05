@@ -24,9 +24,11 @@ int main() {
     vector<Proceso> procesos;
     int cantidadParticiones, cantidadProcesos;
 
+    cout << "Ingrese la cantidad de particiones: ";
     cin >> cantidadParticiones;
 
     for (int i = 0; i < cantidadParticiones; i++) {
+        cout << "Ingrese el tamano de la particion " << i + 1 << ": ";
         int tamanoParticion;
         cin >> tamanoParticion;
         Particion particion;
@@ -37,16 +39,16 @@ int main() {
         particiones.push_back(particion);
     }
 
+    cout << "Ingrese la cantidad de procesos: ";
     cin >> cantidadProcesos;
     cin.ignore();
 
-    int lastAllocated = 0;
-
     for (int i = 1; i <= cantidadProcesos; i++) {
+        cout << "Ingrese el nombre del proceso " << i << ": ";
         string nombreProceso;
-        int tamanoProceso;
-
         getline(cin, nombreProceso);
+        cout << "Ingrese el tamano del proceso " << i << ": ";
+        int tamanoProceso;
         cin >> tamanoProceso;
         Proceso proceso;
         proceso.nombre = nombreProceso;
@@ -60,15 +62,14 @@ int main() {
         Proceso proceso = procesos[i];
         bool asignado = false;
 
-        for (int j = lastAllocated; j < particiones.size(); j++) {
+        for (int j = 0; j < particiones.size(); j++) {
             Particion& particion = particiones[j];
             if (!particion.ocupada && particion.tamano >= proceso.tamano) {
                 particion.ocupada = true;
                 particion.nombreProceso = proceso.nombre;
                 proceso.particionAsignada = particion.id;
                 asignado = true;
-                cout << proceso.nombre << " asignado a la partición " << particion.id << endl;
-                lastAllocated = (j + 1) % particiones.size();
+                cout << proceso.nombre << " asignado a la particion " << particion.id << endl;
                 break;
             }
         }
@@ -79,7 +80,7 @@ int main() {
     }
 
     for (int i = 0; i < procesos.size(); i++) {
-        cout << procesos[i].nombre << " - Partición asignada: " << procesos[i].particionAsignada << endl;
+        cout << procesos[i].nombre << " - Particion asignada: " << procesos[i].particionAsignada << endl;
     }
 
     return 0;
