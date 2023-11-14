@@ -1,0 +1,209 @@
+
+Sub Macro4()
+'
+' Macro4 Macro
+'
+
+'
+    Range("F5").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=+R[1]C[-4]"
+    Range("B12").Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Selection.Copy
+    Range("G5").Select
+    Selection.PasteSpecial Paste:=xlPasteAll, Operation:=xlNone, SkipBlanks:= _
+        False, Transpose:=True
+    Range("F5").Select
+    Range(Selection, Selection.End(xlToRight)).Select
+    Application.CutCopyMode = False
+    Selection.Copy
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    Application.CutCopyMode = False
+    Selection.Copy
+    Range("F10").Select
+    ActiveSheet.Paste
+    Range("F11").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "0"
+    Range("G12").Select
+    ActiveCell.FormulaR1C1 = "1"
+    Range("H13").Select
+    ActiveCell.FormulaR1C1 = "2"
+    Range("I14").Select
+    ActiveCell.FormulaR1C1 = "3"
+    Range("J15").Select
+    ActiveCell.FormulaR1C1 = "4"
+    Range("K16").Select
+    ActiveCell.FormulaR1C1 = "5"
+    Range("L17").Select
+    ActiveCell.FormulaR1C1 = "6"
+    Range("M18").Select
+    ActiveCell.FormulaR1C1 = "7"
+    Range("F11").Select
+    With Selection.Interior
+        .Pattern = xlSolid
+        .PatternColorIndex = xlAutomatic
+        .Color = 5296274
+        .TintAndShade = 0
+        .PatternTintAndShade = 0
+    End With
+    Range("G12").Select
+    With Selection.Interior
+        .Pattern = xlSolid
+        .PatternColorIndex = xlAutomatic
+        .Color = 5296274
+        .TintAndShade = 0
+        .PatternTintAndShade = 0
+    End With
+    Range("H13").Select
+    With Selection.Interior
+        .Pattern = xlSolid
+        .PatternColorIndex = xlAutomatic
+        .Color = 5296274
+        .TintAndShade = 0
+        .PatternTintAndShade = 0
+    End With
+    Range("I14").Select
+    With Selection.Interior
+        .Pattern = xlSolid
+        .PatternColorIndex = xlAutomatic
+        .Color = 5296274
+        .TintAndShade = 0
+        .PatternTintAndShade = 0
+    End With
+    Range("J15").Select
+    With Selection.Interior
+        .Pattern = xlSolid
+        .PatternColorIndex = xlAutomatic
+        .Color = 5296274
+        .TintAndShade = 0
+        .PatternTintAndShade = 0
+    End With
+    Range("K16").Select
+    With Selection.Interior
+        .Pattern = xlSolid
+        .PatternColorIndex = xlAutomatic
+        .Color = 5296274
+        .TintAndShade = 0
+        .PatternTintAndShade = 0
+    End With
+    Range("L17").Select
+    With Selection.Interior
+        .Pattern = xlSolid
+        .PatternColorIndex = xlAutomatic
+        .Color = 5296274
+        .TintAndShade = 0
+        .PatternTintAndShade = 0
+    End With
+    Range("M18").Select
+    With Selection.Interior
+        .Pattern = xlSolid
+        .PatternColorIndex = xlAutomatic
+        .Color = 5296274
+        .TintAndShade = 0
+        .PatternTintAndShade = 0
+    End With
+    Range(Selection, Selection.End(xlUp)).Select
+    Range("F10:M18").Select
+    Range("M18").Activate
+    ActiveWorkbook.Worksheets("Hoja1").Sort.SortFields.Clear
+    ActiveWorkbook.Worksheets("Hoja1").Sort.SortFields.Add2 Key:=Range("F10:M10") _
+        , SortOn:=xlSortOnValues, Order:=xlAscending, DataOption:=xlSortNormal
+    With ActiveWorkbook.Worksheets("Hoja1").Sort
+        .SetRange Range("F10:M18")
+        .Header = xlGuess
+        .MatchCase = False
+        .Orientation = xlLeftToRight
+        .SortMethod = xlPinYin
+        .Apply
+    End With
+    Range("F5").Select
+    Range(Selection, Selection.End(xlToRight)).Select
+    Selection.Copy
+    Range("G23").Select
+    Selection.PasteSpecial Paste:=xlPasteAll, Operation:=xlNone, SkipBlanks:= _
+        False, Transpose:=True
+    Range("H23").Select
+    Application.CutCopyMode = False
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=+R[1]C[-1]"
+    Range("H23").Select
+    Selection.Copy
+    Range("G23").Select
+    Selection.End(xlDown).Select
+    Range("H29").Select
+    Range(Selection, Selection.End(xlUp)).Select
+    ActiveSheet.Paste
+    Application.CutCopyMode = False
+    Selection.Copy
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    Range("G30").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = ""
+    Range("I29").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=+ABS(RC[-2]-RC[-1])"
+    Range("I29").Select
+    Selection.Copy
+    Range("H29").Select
+    Selection.End(xlUp).Select
+    Range("I23").Select
+    Range(Selection, Selection.End(xlDown)).Select
+    ActiveSheet.Paste
+    Application.CutCopyMode = False
+    Selection.Copy
+    Selection.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+    Range("G22").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "INICIO"
+    Range("H22").Select
+    ActiveCell.FormulaR1C1 = "FIN"
+    Range("I22").Select
+    ActiveCell.FormulaR1C1 = "RECORRIDO"
+    Range("G22").Select
+    Range(Selection, Selection.End(xlToRight)).Select
+    With Selection.Interior
+        .Pattern = xlSolid
+        .PatternColorIndex = xlAutomatic
+        .Color = 5296274
+        .TintAndShade = 0
+        .PatternTintAndShade = 0
+    End With
+    With Selection.Interior
+        .Pattern = xlSolid
+        .PatternColorIndex = xlAutomatic
+        .Color = 15773696
+        .TintAndShade = 0
+        .PatternTintAndShade = 0
+    End With
+    With Selection
+        .HorizontalAlignment = xlCenter
+        .VerticalAlignment = xlBottom
+        .WrapText = False
+        .Orientation = 0
+        .AddIndent = False
+        .IndentLevel = 0
+        .ShrinkToFit = False
+        .ReadingOrder = xlContext
+        .MergeCells = False
+    End With
+    Range("G23").Select
+    Selection.End(xlDown).Select
+    Range("K30").Select
+    
+    
+      ' Coloca la palabra "Promedio" en la celda I31
+    Range("I31").Value = "Promedio"
+    
+    ' Colorea la celda I31 de azul
+    Range("I31").Interior.Color = RGB(173, 216, 230) ' RGB para azul
+    
+    ' Calcula el promedio de las celdas I23 a I29 y coloca el resultado en J31
+    Range("J31").Formula = "=AVERAGE(I23:I29)"
+    
+    
+End Sub
