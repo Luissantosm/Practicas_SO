@@ -1,0 +1,347 @@
+
+
+
+Sub combinaryordenar()
+    Application.ScreenUpdating = False ' Apagar actualización de pantalla
+    Dim ws As Worksheet
+    Dim LastRow As Long
+    Dim ValorB2 As Double
+    Dim RangoValores As Range
+    Dim Celda As Range
+    Dim Numero As Integer
+    Dim UltimaColumna As Long
+    Dim FilaInicio As Long
+    Dim ValorCercano As Double
+    Dim DistanciaMinima As Double
+    Dim Diferencia As Double
+    Dim FilaDestino As Long
+    Dim ValorA As Range
+    Dim ValorB As Range
+    Dim Resultado As Double
+    Dim Contador As Integer
+    Dim FilaDestinoResultado As Range
+    Dim FilaDestinoContador As Range
+    Dim UltimoValor As Double ' Nueva variable para el último valor en columna A
+
+    ' Establecer la hoja de trabajo (cambia "Hoja1" al nombre de tu hoja)
+    Set ws = ThisWorkbook.Sheets("Hoja1")
+    
+    
+
+
+    ' Encontrar la última fila en la columna C con datos
+    LastRow = ws.Cells(ws.Rows.Count, "C").End(xlUp).Row
+
+    ' Agregar el valor de I2 en la siguiente celda después del último valor en C
+    ws.Cells(LastRow + 1, "C").Value = ws.Range("B2").Value
+
+    ' Definir el rango de origen (columna C2:C1048)
+    Dim SourceRange As Range
+    Dim TargetRange As Range
+    Dim ErrorFlag As Boolean ' Variable para verificar si se encuentra un valor mayor
+
+    ErrorFlag = False ' Inicialmente, no hay error
+
+    ' Define el rango de origen
+    Set SourceRange = ws.Range("C2:C1048")
+
+    ' Define el rango de destino
+    Set TargetRange = ws.Range("J2")
+
+    ' Comprueba si hay un valor mayor en la columna C
+    For Each Celda In SourceRange
+        If Celda.Value > ws.Range("A2").Value Then
+            ErrorFlag = True
+            Exit For '
+        End If
+    Next Celda
+
+    ' Si se encuentra un valor mayor, muestra un mensaje de error
+    If ErrorFlag = True Then
+        MsgBox "Error: Hay un número mayor en la columna C que el valor en la celda A2.", vbExclamation, "Error"
+        Exit Sub
+    End If
+    
+    
+    
+    
+
+    ' Guarda una copia de SourceRange en A100
+SourceRange.Copy Destination:=Range("D2")
+' Encuentra la última fila en la columna D con datos
+Dim LastRowD As Long
+LastRowD = ws.Cells(ws.Rows.Count, "D").End(xlUp).Row
+
+' Elimina el contenido de la última celda en la columna D (celda D2 en este caso)
+ws.Cells(LastRowD, "D").Clear
+
+' Ordena SourceRange
+SourceRange.Sort Key1:=SourceRange, Order1:=xlAscending, Header:=xlNo
+
+' Copia SourceRange a TargetRange con la transposición
+SourceRange.Copy
+TargetRange.PasteSpecial Paste:=xlPasteAll, Operation:=xlNone, SkipBlanks:=False, Transpose:=True
+
+
+
+
+
+    
+    
+    
+    
+
+    ValorB2 = ws.Range("B2").Value
+
+    ' Definir el rango de valores en la fila 2
+    Set RangoValores = ws.Range("J2:LA2")
+
+    Numero = 1
+
+    For Each Celda In RangoValores
+        ' Obtener el valor de la celda
+        ValorCelda = Celda.Value
+
+        If ValorCelda = ValorB2 Then
+            ' Colocar '1' una fila por debajo
+            Celda.Offset(1, 0).Value = 1
+            ' Pintar la celda
+            Celda.Offset(1, 0).Interior.Color = RGB(173, 216, 230)
+        Else
+        
+        
+            ' Si el valor es mayor que B2, asignar el siguiente número y colocarlo una fila por debajo
+            If ValorCelda > ValorB2 Then
+                Numero = Numero + 1
+                Celda.Offset(Numero, 0).Value = Numero
+                ' Pintar la celda
+                Celda.Offset(Numero, 0).Interior.Color = RGB(173, 216, 230)
+                UltimoNumeroDiagonal = Numero
+            End If
+        End If
+    Next Celda
+    
+    
+    
+
+    Numero = UltimoNumeroDiagonal + 1 ' Comenzar desde el último número de la diagonal + 1
+
+    ' Buscar la última columna en la fila 2 con datos
+    UltimaColumna = ws.Cells(2, ws.Columns.Count).End(xlToLeft).Column
+
+    ' Iniciar desde la columna I
+    FilaInicio = 3 ' Iniciar desde la fila 3
+
+    ' Encontrar la fila de inicio que cumple con la condición
+    Do While WorksheetFunction.CountA(ws.Cells(FilaInicio, 9).Resize(1, UltimaColumna - 8)) > 0
+        FilaInicio = FilaInicio + 1
+    Loop
+
+    ' Comenzar desde la celda I en la fila encontrada
+    Set Celda = ws.Cells(FilaInicio, 10)
+
+    ' Continuar el proceso hasta encontrar un valor en la fila 3 o llegar al final de la fila
+    Do While Celda.Column <= UltimaColumna And IsEmpty(ws.Cells(3, Celda.Column))
+        ' Asignar el número en la celda de la fila 3
+        Celda.Value = Numero
+        Numero = Numero + 1
+        ' Pintar la celda
+        Celda.Interior.Color = RGB(173, 216, 230)
+        ' Mover a la siguiente celda en la fila 2 y una fila hacia abajo
+        Set Celda = Celda.Offset(0, 1).Offset(1, 0)
+    Loop
+
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+
+
+
+
+
+
+' Obtener el valor de "B2"
+ValorB2 = ws.Range("B2").Value
+
+' Definir la celda de la fila "E2" como la primera celda de destino en la columna "E"
+Set FilaDestinoResultado = ws.Cells(2, "E")
+
+' Crear una colección para almacenar los valores mayores
+Dim ValoresMayores As New Collection
+
+' Crear una colección para almacenar los valores no tomados en cuenta previamente
+Dim ValoresNoTomadosEnCuenta As New Collection
+
+' Recorrer la columna "C" desde la fila 2 hasta la última fila
+For Each Celda In SourceRange
+    If Celda.Value > ValorB2 And Celda.Value <> ValorB2 Then
+        ' Agregar los valores mayores a la colección
+        ValoresMayores.Add Celda.Value
+    ElseIf (Celda.Value <= ValorB2 Or Celda.Value = ValorB2) And Celda.Value <> 0 Then
+        ' Agregar los valores no tomados en cuenta previamente a la colección
+        ValoresNoTomadosEnCuenta.Add Celda.Value
+    End If
+Next Celda
+
+' Colocar los valores mayores en la columna "E" desde la fila "E2" hacia abajo
+Dim FilaActual As Range
+Set FilaActual = FilaDestinoResultado
+For Each Valor In ValoresMayores
+    FilaActual.Value = Valor
+    Set FilaActual = FilaActual.Offset(1, 0)
+Next Valor
+
+' Ordenar los valores no tomados en cuenta previamente de manera ascendente
+Dim i As Integer, j As Integer
+For i = 1 To ValoresNoTomadosEnCuenta.Count - 1
+    For j = i + 1 To ValoresNoTomadosEnCuenta.Count
+        If ValoresNoTomadosEnCuenta(i) > ValoresNoTomadosEnCuenta(j) Then
+            Dim Temp As Variant
+            Temp = ValoresNoTomadosEnCuenta(i)
+            ValoresNoTomadosEnCuenta(i) = ValoresNoTomadosEnCuenta(j)
+            ValoresNoTomadosEnCuenta(j) = Temp
+        End If
+    Next j
+Next i
+
+' Colocar los valores ordenados en la celda de destino en la columna "E"
+For Each Valor In ValoresNoTomadosEnCuenta
+    FilaActual.Value = Valor
+    Set FilaActual = FilaActual.Offset(1, 0)
+Next Valor
+
+
+
+
+
+
+
+
+' Eliminar el valor igual a B2 en la columna "E"
+Dim CeldaEliminar As Range
+Dim Fila As Long
+
+Fila = 2 ' Iniciar desde la fila 2 en la columna "E"
+
+Do
+    Set CeldaEliminar = ws.Cells(Fila, "E")
+    If CeldaEliminar.Value = ValorB2 Then
+        CeldaEliminar.ClearContents
+    End If
+    Fila = Fila + 1
+Loop Until IsEmpty(CeldaEliminar)
+
+
+
+
+
+
+
+
+
+
+
+
+
+' Calcular la fórmula en la celda "F2"
+ws.Cells(2, "F").Formula = "=ABS(E2-E3)"
+
+
+FilaActual = 3 ' Comenzar desde la fila 3 en la columna "F"
+
+Do While Not IsEmpty(ws.Cells(FilaActual, "E")) And Not IsEmpty(ws.Cells(FilaActual + 1, "E"))
+    ' Calcular la fórmula en la celda en "F" solo si la celda en "E" no está vacía
+    If Not IsEmpty(ws.Cells(FilaActual, "E")) Then
+        ws.Cells(FilaActual, "F").Formula = "=ABS(E" & FilaActual & "-E" & FilaActual + 1 & ")"
+    End If
+    FilaActual = FilaActual + 1
+Loop
+
+
+
+
+
+
+
+
+
+
+
+
+' Convertir las fórmulas en la columna "F" en valores
+
+FilaActual = 2 ' Comenzar desde la fila 2 en la columna "F"
+
+Do While Not IsEmpty(ws.Cells(FilaActual, "F"))
+    ' Convertir la fórmula en valor
+    ws.Cells(FilaActual, "F").Value = ws.Cells(FilaActual, "F").Value
+    FilaActual = FilaActual + 1
+Loop
+
+   
+   
+
+
+
+
+
+
+
+
+
+
+
+' Seleccionar todos los datos de la columna "F"
+ws.Range("F2:F" & ws.Cells(Rows.Count, "F").End(xlUp).Row).Select
+
+' Copiar los datos seleccionados
+Selection.Copy
+
+' Pegar los datos en la celda "F3"
+ws.Range("F3").Select
+ws.Paste
+
+
+
+
+
+   
+   ' Calcular la diferencia E2-B2 en F2 y pegar el resultado como valor
+ws.Range("F2").Formula = "=E2-B2"
+ws.Range("F2").Value = ws.Range("F2").Value
+
+
+' Calcular la suma de la columna "F" y poner el resultado en G2
+ws.Range("G2").Formula = "=SUM(F:F)"
+ws.Range("G2").Value = ws.Range("G2").Value
+
+
+
+' Calcular el promedio de la columna "F" y poner el resultado en H2
+ws.Range("H2").Formula = "=AVERAGE(F:F)"
+ws.Range("H2").Value = ws.Range("H2").Value
+
+   
+   
+   
+' Encontrar la última fila en la columna E con datos
+LastRowE = ws.Cells(ws.Rows.Count, "E").End(xlUp).Row
+
+' Eliminar los datos de la última fila en la columna "E" (asegúrate de que no haya datos importantes allí)
+ws.Cells(LastRowE, "E").ClearContents
+
+   
+   
+   
+
+    Application.CutCopyMode = False
+    Application.ScreenUpdating = True ' Restaurar la actualización de pantalla
+End Sub
+
